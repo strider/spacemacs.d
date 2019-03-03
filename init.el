@@ -66,7 +66,8 @@ This function should only modify configuration layer settings."
      multiple-cursors
      (org :variables
           org-enable-bootstrap-support t
-          org-want-todo-bindings t)
+          org-want-todo-bindings t
+          org-enable-reveal-js-support t)
      (shell :variables
             shell-default-height  0
             shell-default-position 'bottom
