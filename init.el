@@ -112,8 +112,8 @@ This function should only modify configuration layer settings."
                                       forge
                                       unicode-fonts
                                       persistent-soft
-                                      zygospore
-                                      atom-one-dark-theme
+                                      all-the-icons-dired
+                                      pretty-mode
                                       ;; (magit-gerrit2 :location "~/DEV/work/git/laptop_config/EMACS/magit-gerrit2/")
                                       )
 
@@ -123,8 +123,6 @@ This function should only modify configuration layer settings."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(magithub
                                     nlinum
-                                    doom-modeline
-                                    fancy-battery
                                     neotree
                                     )
 
