@@ -117,6 +117,7 @@ This function should only modify configuration layer settings."
                                       persistent-soft
                                       all-the-icons-dired
                                       pretty-mode
+                                      keychain-environment
                                       ;; (magit-gerrit2 :location "~/DEV/work/git/laptop_config/EMACS/magit-gerrit2/")
                                       )
 
@@ -510,6 +511,7 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  (keychain-refresh-environment)
   (setq custom-file "~/.spacemacs.d/custom.el")
 
   (setq initial-buffer-choice t)
