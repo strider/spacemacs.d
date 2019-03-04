@@ -93,6 +93,7 @@ This function should only modify configuration layer settings."
      spotify
      themes-megapack
      docker
+     unicode-fonts
      ;; (mu4e :variables
      ;;       mu4e-account-alist t
      ;;       mu4e-enable-notifications t)
