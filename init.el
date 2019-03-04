@@ -113,10 +113,10 @@ This function should only modify configuration layer settings."
                                       restclient
                                       ansible-doc
                                       forge
-                                      unicode-fonts
-                                      persistent-soft
                                       all-the-icons-dired
-                                      pretty-mode
+                                      all-the-icons-ivy
+                                      ivy-yasnippet
+                                      alert
                                       keychain-environment
                                       ;; (magit-gerrit2 :location "~/DEV/work/git/laptop_config/EMACS/magit-gerrit2/")
                                       )
