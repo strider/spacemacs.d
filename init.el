@@ -722,6 +722,32 @@ before packages are loaded."
     (setq org-default-notes-file "~/org/inbox.org")
     )
 
+    (setq-default
+    ad-redefinition-action 'accept                   ; Silence warnings for redefinition
+    cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
+    display-time-default-load-average nil            ; Don't display load average
+    fill-column 80                                   ; Set width for automatic line breaks
+    help-window-select t                             ; Focus new help windows when opened
+    inhibit-startup-screen t                         ; Disable start-up screen
+    initial-scratch-message ""                       ; Empty the initial *scratch* buffer
+    kill-ring-max 128                                ; Maximum length of kill ring
+    load-prefer-newer t                              ; Prefers the newest version of a file
+    mark-ring-max 128                                ; Maximum length of mark ring
+    scroll-conservatively most-positive-fixnum       ; Always scroll by one line
+    select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
+    tab-width 4                                      ; Set width for tabs
+    use-package-always-ensure t                      ; Avoid the :ensure keyword for each package
+    user-full-name "Gaël Chamoulaud"                 ; Set the full name of the current user
+    user-mail-address "gchamoul@redhat.com"          ; Set the email address of the current user
+    vc-follow-symlinks t                             ; Always follow the symlinks
+    view-read-only t)                                ; Always open read-only buffers in view-mode
+    (cd "~/")                                         ; Move to the user directory
+    (column-number-mode 1)                            ; Show the column number
+    (display-time-mode 1)                             ; Enable time in the mode-line
+    (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
+    (global-hl-line-mode)                             ; Hightlight current line
+    (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
+    (show-paren-mode 1)                               ; Show the parent
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
