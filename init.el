@@ -514,6 +514,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (keychain-refresh-environment)
   (setq custom-file "~/.spacemacs.d/custom.el")
 
+  (setq-default magit-commit-signoff t)
   (setq initial-buffer-choice t)
   (add-to-list 'exec-path "~/bin/")
   (add-to-list 'exec-path "~/.local/bin/")
@@ -554,6 +555,14 @@ before packages are loaded."
 
   ;; (load-file (expand-file-name "conf/magit.el"
   ;;                              "~/.spacemacs.d"))
+  (setq git-commit-summary-max-length 80)
+  (setq magit-save-some-buffers nil)
+  (setq magit-remote-ref-format 'remote-slash-branch)
+
+  (add-hook 'git-commit-mode-hook (lambda () (toggle-save-place 0))) ; Disable it
+  (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
+
+  (global-set-key (kbd "C-x p") 'magit-find-file-completing-read)
 
   ;; (require 'magit-gerrit2)
   ;; (setq-default magit-gerrit2-ssh-creds "gchamoul@review.openstack.org")
