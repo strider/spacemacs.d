@@ -582,6 +582,8 @@ before packages are loaded."
   (add-hook 'after-init-hook 'global-company-mode)
   (add-hook 'python-mode-hook 'anaconda-mode)
 
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
   (eval-after-load "company"
     '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
   (global-auto-complete-mode t)
