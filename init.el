@@ -84,7 +84,7 @@ This function should only modify configuration layer settings."
      yaml
      (python :variables
              python-sort-imports-on-save t
-             python-fill-column 99)
+             python-fill-column 80)
      vimscript
      asciidoc
      shell-scripts
