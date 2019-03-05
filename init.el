@@ -553,6 +553,8 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  (setq yas-snippet-dirs '("~/.spacemacs.d/snippets/"))
+
   ;; (load-file (expand-file-name "conf/magit.el"
   ;;                              "~/.spacemacs.d"))
   (setq git-commit-summary-max-length 80)

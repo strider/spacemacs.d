@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+#name : GC - ini
+#key : ini
+#contributor : Gaël Chamoulaud
+# --
+- name: $1
+  ini:
+    path: $2
+    section: $3
+    key: $4
+    ignore_missing_file: True
+  $0
