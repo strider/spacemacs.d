@@ -607,7 +607,8 @@ before packages are loaded."
   (setq yas-indent-line 'fixed)
 
   (setq-default abbrev-mode t)
-  (setq save-abbrevs 'silent)
+  (setq-default save-abbrevs 'silent)
+  (setq-default abbrev-file-name "~/.spacemacs.d/abbrev_defs")
 
   (custom-set-faces
    '(company-tooltip-common
