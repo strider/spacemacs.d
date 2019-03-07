@@ -94,9 +94,10 @@ This function should only modify configuration layer settings."
      themes-megapack
      docker
      unicode-fonts
-     ;; (mu4e :variables
-     ;;       mu4e-account-alist t
-     ;;       mu4e-enable-notifications t)
+     (mu4e :variables
+           mu4e-account-alist t
+           mu4e-enable-mode-line t
+           mu4e-enable-notifications t)
      )
 
    ;; List of additional packages that will be installed without being
@@ -118,6 +119,8 @@ This function should only modify configuration layer settings."
                                       ivy-yasnippet
                                       alert
                                       keychain-environment
+                                      mu4e-alert
+                                      mu4e-jump-to-list
                                       ;; (magit-gerrit2 :location "~/DEV/work/git/laptop_config/EMACS/magit-gerrit2/")
                                       )
 
@@ -762,6 +765,106 @@ before packages are loaded."
     (global-hl-line-mode)                             ; Hightlight current line
     (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
     (show-paren-mode 1)                               ; Show the parent
+
+    ;;; Mu4e configuration
+    (setq mu4e-maildir "~/Mail/redhat-gmail")
+    (setq mu4e-trash-folder "/Trash")
+    (setq mu4e-refile-folder "/Archive")
+    (setq mu4e-sent-folder "/Sent")
+    (setq mu4e-drafts-folder "/Drafts")
+    (setq mu4e-sent-messages-behavior 'delete)
+    (setq mu4e-compose-signature-auto-include nil)
+    (setq mu4e-view-show-images t)
+    (setq mu4e-view-use-gnus nil)
+    (setq mu4e-view-show-addresses t)
+    (setq user-mail-address "gchamoul@redhat.com")
+    (setq user-full-name "Gaël Chamoulaud")
+
+    (setq mu4e-alert-interesting-mail-query
+          (concat
+            "flag:unread maildir:/INBOX"
+            "OR "
+            "flag:unread maildir:/ML.OST-RH-OPENSTACK-UI"
+            ))
+    (mu4e-alert-enable-mode-line-display)
+
+    (with-eval-after-load 'mu4e-alert
+      ;; Enable Desktop notifications
+      (mu4e-alert-set-default-style 'notifications))
+
+    (setq mu4e-headers-fields
+          '((:human-date .  12)
+            (:flags      .   6)
+            (:from       .  40)
+            (:subject    . nil)))
+
+    (setq  mu4e-maildir-shortcuts
+          '(("/INBOX"            . ?i)
+            ("/ML.announce-list" . ?a)
+            ("/ML.cdg-list"      . ?c)
+            ("/ML.France-list"   . ?f)
+            ("/Perso"            . ?p)
+            ("/ML.memo-list"     . ?m)
+            ("/ML.KNI-DEVEL"     . ?k)
+            ("/ML.OST-UPSTREAM-TRIPLEO-DEV"     . ?t)))
+
+    ;;; Bookmarks
+    (setq mu4e-bookmarks
+          `(("maildir:/INBOX" "Inbox" ?i)
+            ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
+            ("date:today..now" "Today's messages" ?t)
+            ("date:7d..now" "Last 7 days" ?w)
+            ("mime:image/*" "Messages with images" ?p)
+            (,(mapconcat 'identity
+                        (mapcar
+                          (lambda (maildir)
+                            (concat "maildir:" (car maildir)))
+                          mu4e-maildir-shortcuts) " OR ")
+            "All inboxes" ?a)))
+
+    ;;; Sending emails ...
+    (setq message-sendmail-f-is-evil 't)
+    (setq message-send-mail-function 'message-send-mail-with-sendmail)
+    (setq sendmail-program "/usr/bin/msmtp")
+    (setq message-sendmail-extra-arguments '("--read-envelope-from"))
+
+    ;;; Global parameters
+    (setq message-kill-buffer-on-exit t)
+    (setq mu4e-context-policy 'pick-first)
+    (setq mu4e-confirm-quit nil)
+
+    (setq mu4e-headers-thread-child-prefix '("├>" . "├▶ "))
+    (setq mu4e-headers-thread-last-child-prefix '("└>" . "└▶ "))
+    (setq mu4e-headers-thread-connection-prefix '("│" . "│ "))
+    (setq mu4e-headers-thread-orphan-prefix '("┬>" . "┬▶ "))
+    (setq mu4e-headers-thread-single-orphan-prefix '("─>" . "─▶ "))
+
+    (setq mu4e-use-fancy-chars t
+          mu4e-headers-unread-mark    '("u" . "✉")
+          mu4e-headers-flagged-mark   '("F" . "⚑")
+          ;; mu4e-headers-attach-mark    '("a" . "◇")
+          mu4e-headers-new-mark       '("N" . "☉")
+          mu4e-headers-attach-mark    '("a" . "📎")
+          mu4e-headers-seen-mark      '("S" . " ")
+          mu4e-headers-replied-mark   '("R" . "↵")
+          mu4e-headers-passed-mark    '("P" . "⇉")
+          mu4e-headers-signed-mark    '("s" . "✍")
+          mu4e-headers-trashed-mark   '("T" . "×"))
+
+    (setq mu4e-split-view 'horizontal)
+
+    (setq mu4e-headers-include-related t)
+    (setq mu4e-compose-dont-reply-to-self t)
+    (setq mu4e-attachment-dir "~/Downloads")
+    (setq mu4e-view-prefer-html t)
+    (setq mu4e-html2text-command "w3m -dump -T text/html")
+    ;; Use imagemagick, if available.
+    (when (fboundp 'imagemagick-register-types)
+      (imagemagick-register-types))
+    (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
+    (global-set-key (kbd "<f6>") 'mu4e)
+    (global-set-key (kbd "<f7>") 'mu4e-jump-to-list)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
