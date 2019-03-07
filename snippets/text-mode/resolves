@@ -3,4 +3,4 @@
 #key : rhbz
 #contributor : Gaël Chamoulaud
 # --
-Resolves: rhbz#$1
+Resolves: rhbz#${1:0000000}

@@ -3,4 +3,4 @@
 #key : ign
 #contributor : Gaël Chamoulaud
 # --
-ignore_errors: $1
+ignore_errors: True
