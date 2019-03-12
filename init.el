@@ -63,7 +63,6 @@ This function should only modify configuration layer settings."
              colors-default-rainbow-identifiers-sat t)
      github
      markdown
-     multiple-cursors
      (org :variables
           org-enable-bootstrap-support t
           org-want-todo-bindings t
