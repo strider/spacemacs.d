@@ -44,6 +44,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
+     (ivy :variables ivy-enable-advanced-buffer-information t)
      fasd
      ranger
      (auto-completion :variables
@@ -562,6 +563,7 @@ before packages are loaded."
   (setq git-commit-summary-max-length 80)
   (setq magit-save-some-buffers nil)
   (setq magit-remote-ref-format 'remote-slash-branch)
+  (setq magit-completing-read-function 'ivy-completing-read)
 
   (add-hook 'git-commit-mode-hook (lambda () (toggle-save-place 0))) ; Disable it
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
@@ -601,8 +603,21 @@ before packages are loaded."
     '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
   (global-auto-complete-mode t)
 
-  (add-to-list 'load-path
-               "~/.emacs.d/private/snippets")
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c i") 'counsel-imenu)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-c h") 'counsel-locate)
+  (global-set-key (kbd "C-c n") 'counsel-fzf)
+  (global-set-key (kbd "C-c r") 'ivy-recentf)
+  (global-set-key (kbd "C-c s") 'ivy-yasnippet)
+  (global-set-key (kbd "C-c m") 'man)
+  (global-set-key (kbd "<C-f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<C-f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<C-f1> l") 'counsel-find-library)
 
   (require 'yasnippet)
   (yas-global-mode 1)
@@ -633,6 +648,7 @@ before packages are loaded."
   (setq sentence-end-double-space t)
   (global-set-key (kbd "C-x g") 'counsel-projectile-switch-project)
 
+  (setq projectile-completion-system 'ivy)
   (setq python-shell-interpreter "python3")
 
   (setq calendar-week-start-day 1)	; Weeks start on monday
