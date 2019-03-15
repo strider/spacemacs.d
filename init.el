@@ -33,17 +33,11 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(python
-     go
-     html
+   '(html
+     systemd
      pass
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     helm
+
      (ivy :variables ivy-enable-advanced-buffer-information t)
      fasd
      ranger
@@ -54,7 +48,6 @@ This function should only modify configuration layer settings."
      better-defaults
      emacs-lisp
      cscope
-     pdf
      (git :variables
           git-magit-status-fullscreen t
           git-gutter-use-fringe t)
@@ -76,6 +69,8 @@ This function should only modify configuration layer settings."
             shell-default-term-shell "/bin/zsh")
      (spell-checking :variables
                      spell-checking-enable-by-default nil)
+                     ;; spell-checking-enable-auto-dictionary t
+                     ;; =enable-flyspell-auto-completion= t)
 
      syntax-checking
      (version-control :variables
@@ -85,8 +80,6 @@ This function should only modify configuration layer settings."
      (python :variables
              python-sort-imports-on-save t
              python-fill-column 80)
-     vimscript
-     asciidoc
      shell-scripts
      major-modes
      ansible
@@ -114,12 +107,10 @@ This function should only modify configuration layer settings."
                                       ansible-doc
                                       forge
                                       all-the-icons-dired
-                                      all-the-icons-ivy
                                       ivy-yasnippet
-                                      alert
                                       keychain-environment
-                                      mu4e-alert
                                       mu4e-jump-to-list
+                                      pyvenv
                                       ;; (magit-gerrit2 :location "~/DEV/work/git/laptop_config/EMACS/magit-gerrit2/")
                                       )
 
@@ -127,9 +118,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(magithub
-                                    nlinum
-                                    neotree
+   dotspacemacs-excluded-packages '(
+                                    magithub
                                     )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -215,7 +205,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-editing-style 'vim
 
    ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   dotspacemacs-verbose-loading t
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -223,7 +213,8 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner '000
+   ;; dotspacemacs-startup-banner '000
+   dotspacemacs-startup-banner nil
 
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
@@ -233,7 +224,6 @@ It should only modify the values of Spacemacs settings."
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    dotspacemacs-startup-lists nil
    ;; dotspacemacs-startup-lists '((recents . 5)
-   ;;                              (bookmarks . 5)
    ;;                              (projects . 7)
    ;;                              (agenda . 5))
 
@@ -249,9 +239,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
-
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
+                         smyx
                          farmhouse-dark
                          material
                          naquadah
@@ -266,9 +256,7 @@ It should only modify the values of Spacemacs settings."
    ;; `vanilla' is default Emacs mode-line. `custom' is a user defined themes,
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
-
-   dotspacemacs-mode-line-theme '(spacemacs
-                                  :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(doom)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -281,7 +269,8 @@ It should only modify the values of Spacemacs settings."
                                :size 14
                                :weight normal
                                :width normal
-                               :powerline-scale 1.5)
+                               :powerline-scale 1.5
+                               )
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -349,13 +338,13 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-delay 0.2
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
    ;; (default 'bottom)
-   dotspacemacs-which-key-position 'right-then-bottom
+   dotspacemacs-which-key-position 'bottom
 
    ;; Control where `switch-to-buffer' displays the buffer. If nil,
    ;; `switch-to-buffer' displays the buffer in the current window even if
@@ -443,7 +432,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, start an Emacs server if one is not already running.
    ;; (default nil)
-   dotspacemacs-enable-server t
+   dotspacemacs-enable-server nil
 
    ;; Set the emacs server socket location.
    ;; If nil, uses whatever the Emacs default is, otherwise a directory path
@@ -452,7 +441,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server t
+   dotspacemacs-persistent-server nil
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -513,17 +502,14 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-  (keychain-refresh-environment)
+  ;; (keychain-refresh-environment)
   (setq custom-file "~/.spacemacs.d/custom.el")
 
-  (setq-default magit-commit-signoff t)
   (setq initial-buffer-choice t)
-  (add-to-list 'exec-path "~/bin/")
-  (add-to-list 'exec-path "~/.local/bin/")
-  (add-to-list 'custom-theme-load-path "~/.emacs.d/private/themes/")
+  (add-to-list 'exec-path "~/bin")
+  (add-to-list 'exec-path "~/.local/bin")
 
   (setq-default auto-fill-function 'do-auto-fill)
-  (setq-default fill-column 79)
 
   (setq git-commit-fill-column 72)
 
@@ -531,14 +517,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq-default winum-scope 'frame-local)
   (setq-default line-number-mode 'relatives)
 
-  ;; (setq powerline-default-separator 'zigzag)
-
-  ;; (add-hook 'spacemacs-buffer-mode-hook (lambda ()
-  ;;                              (setq show-trailing-whitespace nil)))
-  ;; (setq-default show-trailing-whitespace t)
-
-  (setq dired-recursive-deletes 'always)
-  (setq dired-listing-switches "-alh")
   )
 
 (defun dotspacemacs/user-load ()
@@ -555,6 +533,14 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; (if (display-graphic-p)
+  ;;     (load-theme 'solarized-dark t)
+  ;;   (load-theme 'smyx t))
+
+  (global-git-commit-mode t)
+  (setq dired-recursive-deletes 'always)
+  (setq dired-listing-switches "-alh")
+
   (setq yas-snippet-dirs '("~/.spacemacs.d/snippets/"))
 
   ;; (load-file (expand-file-name "conf/magit.el"
@@ -567,6 +553,7 @@ before packages are loaded."
   (add-hook 'git-commit-mode-hook (lambda () (toggle-save-place 0))) ; Disable it
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
 
+  (global-set-key (kbd "<f3>") 'magit-status)
   (global-set-key (kbd "C-x p") 'magit-find-file-completing-read)
 
   ;; (require 'magit-gerrit2)
@@ -610,7 +597,8 @@ before packages are loaded."
   (global-set-key (kbd "C-c j") 'counsel-git-grep)
   (global-set-key (kbd "C-c k") 'counsel-ag)
   (global-set-key (kbd "C-c h") 'counsel-locate)
-  (global-set-key (kbd "C-c n") 'counsel-fzf)
+  (global-set-key (kbd "C-c n") 'counsel-ibuffer)
+  (global-set-key (kbd "C-c o") 'counsel-org-capture)
   (global-set-key (kbd "C-c r") 'ivy-recentf)
   (global-set-key (kbd "C-c s") 'ivy-yasnippet)
   (global-set-key (kbd "C-c m") 'man)
@@ -622,9 +610,11 @@ before packages are loaded."
   (yas-global-mode 1)
   (setq yas-indent-line 'fixed)
 
-  (setq-default abbrev-mode t)
+  (add-hook 'text-mode-hook #'abbrev-mode)
   (setq-default save-abbrevs 'silent)
   (setq-default abbrev-file-name "~/.spacemacs.d/abbrev_defs")
+  (if (file-exists-p abbrev-file-name)
+      (quietly-read-abbrev-file))
 
   (custom-set-faces
    '(company-tooltip-common
@@ -639,13 +629,11 @@ before packages are loaded."
   (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
   (add-hook 'yaml-mode-hook #'ansible-doc-mode)
 
-  (setq paradox-github-token 'f67b1422b719db505d2b212eb9d509c117f767fd)
   ;; gitgutter
   (global-git-gutter-mode +1)
 
   (define-key evil-normal-state-map (kbd "Q") (kbd "gqip"))
   (setq sentence-end-double-space t)
-  (global-set-key (kbd "C-x g") 'counsel-projectile-switch-project)
 
   (setq projectile-completion-system 'ivy)
   (setq python-shell-interpreter "python3")
@@ -692,17 +680,17 @@ before packages are loaded."
   (setq org-log-done t)
 
   (setq org-todo-keywords
-      '((sequence "TODO(t!)"
-                  "STARTED(s!)"
-                  "DELEGATED(g@)"
-                  "BLOCKED(b@)"
-                  "FEEDBACK(f!/@)"
-                  "REWORK(r!/!)"
-                  "VERIFY(v/!)"
-                  "|"
-                  "DONE(d!)"
-                  "CANCELED(c@)")
-        (sequence "PROJECT(j!)" "|" "CANCELED(c@)" "DONE(d!)")))
+        '((sequence "TODO(t!)"
+                    "STARTED(s!)"
+                    "DELEGATED(g@)"
+                    "BLOCKED(b@)"
+                    "FEEDBACK(f!/@)"
+                    "REWORK(r!/!)"
+                    "VERIFY(v/!)"
+                    "|"
+                    "DONE(d!)"
+                    "CANCELED(c@)")
+          (sequence "PROJECT(j!)" "|" "CANCELED(c@)" "DONE(d!)")))
 
   (setq org-todo-keyword-faces
         '(("DELEGATED" . shadow)
@@ -717,10 +705,10 @@ before packages are loaded."
   (setq org-src-preserve-indentation t)
   (setq org-enforce-todo-dependencies t)
   (setq org-link-abbrev-alist
-      '(("colissimo" . "http://www.coliposte.net/particulier/suivi_particulier.jsp?colispart=")
-        ("launchpad" . "https://bugs.launchpad.net/bugs/")
-        ("review"    . "https://review.openstack.org/#/c/")
-        ("rhbz"      . "https://bugzilla.redhat.com/show_bug.cgi?id=")))
+        '(("colissimo" . "http://www.coliposte.net/particulier/suivi_particulier.jsp?colispart=")
+          ("launchpad" . "https://bugs.launchpad.net/bugs/")
+          ("review"    . "https://review.openstack.org/#/c/")
+          ("rhbz"      . "https://bugzilla.redhat.com/show_bug.cgi?id=")))
 
   (setq ibuffer-modified-char ?✍)
   (setq ibuffer-read-only-char ?✗)
@@ -737,48 +725,48 @@ before packages are loaded."
 
   (with-eval-after-load 'org
     (setq org-capture-templates
-      '(("t" "todo entry human" entry
-         (file+headline "~/org/inbox.org" "TASKS")
-         "* TODO %i%? \n %u"
-         )))
-
-    (setq org-capture-templates
-          '(("p" "todo entry human" entry
+          '(("t" "todo entry human" entry
+             (file+headline "~/org/inbox.org" "TASKS")
+             "* TODO %i%? \n %u")
+            ("a" "TODO ADMIN Tasks" entry
+             (file+headline "~/org/personal.org" "ADMIN TASKS")
+             "* TODO %i%? \n %u")
+            ("e" "TODO PERSONAL Tasks" entry
              (file+headline "~/org/personal.org" "PERSONAL TASKS")
-             "* TODO %i%? \n %u"
-             )))
+             "* TODO %i%? \n %u")
+            ))
 
     (setq org-agenda-files '("~/org/inbox.org"
                              "~/org/personal.org"))
     (setq org-default-notes-file "~/org/inbox.org")
     )
 
-    (setq-default
-    ad-redefinition-action 'accept                   ; Silence warnings for redefinition
-    cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
-    display-time-default-load-average nil            ; Don't display load average
-    fill-column 80                                   ; Set width for automatic line breaks
-    help-window-select t                             ; Focus new help windows when opened
-    inhibit-startup-screen t                         ; Disable start-up screen
-    initial-scratch-message ""                       ; Empty the initial *scratch* buffer
-    kill-ring-max 128                                ; Maximum length of kill ring
-    load-prefer-newer t                              ; Prefers the newest version of a file
-    mark-ring-max 128                                ; Maximum length of mark ring
-    scroll-conservatively most-positive-fixnum       ; Always scroll by one line
-    select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
-    tab-width 4                                      ; Set width for tabs
-    use-package-always-ensure t                      ; Avoid the :ensure keyword for each package
-    user-full-name "Gaël Chamoulaud"                 ; Set the full name of the current user
-    user-mail-address "gchamoul@redhat.com"          ; Set the email address of the current user
-    vc-follow-symlinks t                             ; Always follow the symlinks
-    view-read-only t)                                ; Always open read-only buffers in view-mode
-    (cd "~/")                                         ; Move to the user directory
-    (column-number-mode 1)                            ; Show the column number
-    (display-time-mode 1)                             ; Enable time in the mode-line
-    (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
-    (global-hl-line-mode)                             ; Hightlight current line
-    (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
-    (show-paren-mode 1)                               ; Show the parent
+  (setq-default
+   ad-redefinition-action 'accept                   ; Silence warnings for redefinition
+   cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
+   display-time-default-load-average nil            ; Don't display load average
+   fill-column 80                                   ; Set width for automatic line breaks
+   help-window-select t                             ; Focus new help windows when opened
+   inhibit-startup-screen t                         ; Disable start-up screen
+   initial-scratch-message ""                       ; Empty the initial *scratch* buffer
+   kill-ring-max 128                                ; Maximum length of kill ring
+   load-prefer-newer t                              ; Prefers the newest version of a file
+   mark-ring-max 128                                ; Maximum length of mark ring
+   scroll-conservatively most-positive-fixnum       ; Always scroll by one line
+   select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
+   tab-width 4                                      ; Set width for tabs
+   use-package-always-ensure t                      ; Avoid the :ensure keyword for each package
+   vc-follow-symlinks t                             ; Always follow the symlinks
+   view-read-only t)                                ; Always open read-only buffers in view-mode
+  (cd "~/")                                         ; Move to the user directory
+  (column-number-mode 1)                            ; Show the column number
+  (display-time-mode 1)                             ; Enable time in the mode-line
+  (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
+  (global-hl-line-mode 1)                           ; Hightlight current line
+  (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
+  (show-paren-mode 1)                               ; Show the parent
+  (indent-guide-global-mode)
+  (xterm-mouse-mode -1)
 
     ;;; Mu4e configuration
   (setq mu4e-maildir "~/Mail/redhat-gmail")
@@ -840,6 +828,7 @@ before packages are loaded."
           ("maildir:/ML.OST-RH-OPENSTACK-PGM" "RHOS-pgm"         ?g)
           ("maildir:/ML.OST-RHOS-TECH" "RHOS-tech"         ?c)
           ("maildir:/ML.memo-list" "memo-list"         ?m)
+          ("maildir:/ML.Friday-list" "friday-list"         ?f)
           ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
           ("date:today..now" "Today's messages" ?t)
           ("date:7d..now" "Last 7 days" ?w)
@@ -869,18 +858,7 @@ before packages are loaded."
   (setq mu4e-headers-thread-orphan-prefix '("┬>" . "┬▶ "))
   (setq mu4e-headers-thread-single-orphan-prefix '("─>" . "─▶ "))
 
-  (setq mu4e-use-fancy-chars t
-        mu4e-headers-unread-mark    '("u" . "✉")
-        mu4e-headers-flagged-mark   '("F" . "⚑")
-        ;; mu4e-headers-attach-mark    '("a" . "◇")
-        mu4e-headers-new-mark       '("N" . "☉ ")
-        mu4e-headers-attach-mark    '("a" . "📎")
-        mu4e-headers-seen-mark      '("S" . " ")
-        mu4e-headers-replied-mark   '("R" . "↵")
-        mu4e-headers-passed-mark    '("P" . "⇉")
-        mu4e-headers-signed-mark    '("s" . "✍")
-        mu4e-headers-trashed-mark   '("T" . "×"))
-
+  (setq mu4e-use-fancy-chars nil)
   (setq mu4e-split-view 'horizontal)
 
   (setq mu4e-headers-auto-update t)
@@ -897,7 +875,6 @@ before packages are loaded."
   (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
   (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
   (global-set-key (kbd "<f5>") 'mu4e-update-index)
-  (global-set-key (kbd "<f6>") 'mu4e)
   (global-set-key (kbd "<f7>") 'mu4e-jump-to-list)
 
   )
