@@ -8,5 +8,5 @@
     path: "${2:/home/john/doe/file}"
     section: ${3:DEFAULT}
     key: $5
-  ignore_missing_file: ${4:$$(yas-choose-value '("True" "False"))}
+    ignore_missing_file: ${4:$$(yas-choose-value '("True" "False"))}
   $0

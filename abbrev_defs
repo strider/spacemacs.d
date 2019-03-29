@@ -408,7 +408,6 @@
     ("eforts" "efforts" nil 0)
     ("ehr" "her" nil 0)
     ("eligable" "eligible" nil 0)
-    ("emacs" "Emacs" nil 0)
     ("embarass" "embarrass" nil 0)
     ("emigre" "emigre" nil 0)
     ("enahancements" "enhancements" nil 0)
@@ -532,7 +531,6 @@
     ("hvae" "have" nil 0)
     ("hvaing" "having" nil 0)
     ("hwich" "which" nil 0)
-    ("i" "I" nil 0)
     ("idae" "idea" nil 0)
     ("idaes" "ideas" nil 0)
     ("identifiy" "identify" nil 0)
@@ -1145,4 +1143,3 @@
 (define-abbrev-table 'xref--xref-buffer-mode-abbrev-table '())
 
 (define-abbrev-table 'yaml-mode-abbrev-table '())
-
