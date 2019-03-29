@@ -768,7 +768,11 @@ before packages are loaded."
   (indent-guide-global-mode)
   (xterm-mouse-mode -1)
 
-    ;;; Mu4e configuration
+
+  (load "~/.spacemacs.d/mutt.el")
+  (add-to-list 'auto-mode-alist '(".*neomutt.*" . mutt-mode))
+  (setq mail-header-separator "")
+
   (setq mu4e-maildir "~/Mail/redhat-gmail")
   (setq mu4e-trash-folder "/Trash")
   (setq mu4e-refile-folder "/Archive")
