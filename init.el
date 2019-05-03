@@ -90,6 +90,7 @@ This function should only modify configuration layer settings."
      (mu4e :variables
            mu4e-account-alist t
            mu4e-enable-async-operations t)
+     (elfeed :variables rmh-elfeed-org-files (list "~/.spacemacs.d/elfeed.org"))
      )
 
    ;; List of additional packages that will be installed without being
@@ -671,6 +672,8 @@ before packages are loaded."
         `(,@holiday-solar-holidays
           ,@calendar-legal-holidays
           ,@calendar-celebration-holidays))
+  (customize-set-variable 'org-journal-dir "~/org/journal/")
+  (customize-set-variable 'org-journal-date-format "%A, %d %B %Y")
 
   (setq org-directory "~/org")
   (setq org-hide-leading-stars t)
