@@ -83,7 +83,6 @@ This function should only modify configuration layer settings."
      shell-scripts
      major-modes
      ansible
-     spotify
      themes-megapack
      docker
      unicode-fonts
