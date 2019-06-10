@@ -64,6 +64,7 @@ This function should only modify configuration layer settings."
           org-enable-bootstrap-support t
           org-want-todo-bindings t
           org-enable-reveal-js-support t
+          org-enable-org-journal-support t
           org-projectile-file "~/org/TODOs.org")
      (shell :variables
             shell-default-height  0
@@ -694,21 +695,22 @@ before packages are loaded."
   (windmove-default-keybindings)    ; Move between frames with Shift+arrow
   (setq mouse-yank-at-point t)
 
+  (customize-set-variable 'org-journal-dir "~/org/journal/")
+  (customize-set-variable 'org-journal-date-format "%A, %d %B %Y")
+
   (with-eval-after-load 'org
     (setq org-capture-templates
-          '(("t" "todo entry human" entry
-             (file+headline "~/org/inbox.org" "TASKS")
-             "* TODO %i%? \n %u")
-            ("a" "TODO ADMIN Tasks" entry
-             (file+headline "~/org/personal.org" "ADMIN TASKS")
-             "* TODO %i%? \n %u")
-            ("e" "TODO PERSONAL Tasks" entry
-             (file+headline "~/org/personal.org" "PERSONAL TASKS")
-             "* TODO %i%? \n %u")
+          '(("t" "WORK Tasks" entry (file+headline "~/org/inbox.org" "TASKS")
+            "* TODO %i%?\n- Added: %U\n" :prepend t :kill-buffer t)
+            ("a" "TODO ADMIN Tasks" entry (file+headline "~/org/personal.org" "ADMIN TASKS")
+            "* TODO %i%?\n- Added: %U\n" :prepend t :kill-buffer t)
+            ("e" "TODO PERSONAL Tasks" entry (file+headline "~/org/personal.org" "PERSONAL TASKS")
+            "* TODO %i%?\ni- Added: %U\n" :prepend t :kill-buffer t)
             ))
 
     (setq org-agenda-files '("~/org/inbox.org"
                              "~/org/personal.org"))
+    (add-to-list 'org-agenda-files org-journal-dir)
     (setq org-default-notes-file "~/org/inbox.org")
     )
 
@@ -747,6 +749,7 @@ before packages are loaded."
   (setq user-mail-address "gchamoul@redhat.com")
   (setq user-full-name "Gaël Chamoulaud")
 
+)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
