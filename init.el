@@ -81,7 +81,7 @@ This function should only modify configuration layer settings."
                       version-control-diff-tool 'git-gutter+)
      yaml
      (python :variables
-             python-sort-imports-on-save t
+             python-sort-imports-on-save nil
              python-fill-column 80)
      shell-scripts
      major-modes
