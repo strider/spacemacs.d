@@ -637,7 +637,7 @@ before packages are loaded."
   (setq sentence-end-double-space t)
 
   (setq projectile-completion-system 'ivy)
-  (setq python-shell-interpreter "python3")
+  (setq python-shell-interpreter "/usr/bin/python3")
 
   (setq calendar-week-start-day 1)	; Weeks start on monday
   (setq calendar-date-style 'european)
