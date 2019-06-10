@@ -34,7 +34,10 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(html
+     rust
+     lua
      systemd
+     multiple-cursors
      pass
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
 
@@ -90,6 +93,7 @@ This function should only modify configuration layer settings."
            mu4e-account-alist t
            mu4e-enable-async-operations t)
      (elfeed :variables rmh-elfeed-org-files (list "~/.spacemacs.d/elfeed.org"))
+     (multiple-cursors :variables multiple-cursors-backend 'evil-mc)
      )
 
    ;; List of additional packages that will be installed without being
