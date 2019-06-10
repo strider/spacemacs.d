@@ -503,7 +503,6 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
-  ;; (keychain-refresh-environment)
   (setq custom-file "~/.spacemacs.d/custom.el")
 
   (setq initial-buffer-choice t)
@@ -538,6 +537,7 @@ before packages are loaded."
   ;;     (load-theme 'solarized-dark t)
   ;;   (load-theme 'smyx t))
 
+  (keychain-refresh-environment)
   (global-git-commit-mode t)
   (setq dired-recursive-deletes 'always)
   (setq dired-listing-switches "-alh")
