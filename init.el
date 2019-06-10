@@ -115,6 +115,7 @@ This function should only modify configuration layer settings."
                                       keychain-environment
                                       mu4e-jump-to-list
                                       pyvenv
+                                      rpm-spec-mode
                                       ;; (magit-gerrit2 :location "~/DEV/work/git/laptop_config/EMACS/magit-gerrit2/")
                                       )
 
