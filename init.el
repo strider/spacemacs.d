@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(ruby
+     html
      rust
      lua
      systemd
@@ -111,10 +112,8 @@ This function should only modify configuration layer settings."
                                       all-the-icons-dired
                                       ivy-yasnippet
                                       keychain-environment
-                                      mu4e-jump-to-list
                                       pyvenv
                                       rpm-spec-mode
-                                      ;; (magit-gerrit2 :location "~/DEV/work/git/laptop_config/EMACS/magit-gerrit2/")
                                       )
 
    ;; A list of packages that cannot be updated.
