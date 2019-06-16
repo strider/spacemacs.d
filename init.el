@@ -650,6 +650,16 @@ before packages are loaded."
   (setq org-completion-use-ido t)
   (setq org-log-done t)
 
+  ;;set priority range from A to C with default A
+  (setq org-highest-priority ?A)
+  (setq org-lowest-priority ?B)
+  (setq org-default-priority ?A)
+
+  ;;set colours for priorities
+  (setq org-priority-faces '((?A . (:foreground "#F0DFAF" :weight bold))
+                             (?B . (:foreground "LightSteelBlue"))
+                             (?C . (:foreground "OliveDrab"))))
+
   (setq org-todo-keywords
         '((sequence "TODO(t!)"
                     "STARTED(s!)"
@@ -699,16 +709,17 @@ before packages are loaded."
 
   (with-eval-after-load 'org
     (setq org-capture-templates
-          '(("t" "WORK Tasks" entry (file+headline "~/org/inbox.org" "TASKS")
-            "* TODO %i%?\n- Added: %U\n" :prepend t :kill-buffer t)
+          '(("t" "TODO WORK Tasks" entry (file+headline "~/org/inbox.org" "TASKS")
+            "* TODO [#A] %i%?\n- Added: %U\n" :prepend t :kill-buffer t)
             ("a" "TODO ADMIN Tasks" entry (file+headline "~/org/personal.org" "ADMIN TASKS")
-            "* TODO %i%?\n- Added: %U\n" :prepend t :kill-buffer t)
+            "* TODO [#A] %i%?\n- Added: %U\n" :prepend t :kill-buffer t)
             ("e" "TODO PERSONAL Tasks" entry (file+headline "~/org/personal.org" "PERSONAL TASKS")
-            "* TODO %i%?\ni- Added: %U\n" :prepend t :kill-buffer t)
+            "* TODO [#A] %i%?\ni- Added: %U\n" :prepend t :kill-buffer t)
             ))
 
     (setq org-agenda-files '("~/org/inbox.org"
-                             "~/org/personal.org"))
+                             "~/org/personal.org"
+                             "~/org/TODOs.org"))
     (add-to-list 'org-agenda-files org-journal-dir)
     (setq org-default-notes-file "~/org/inbox.org")
     )
