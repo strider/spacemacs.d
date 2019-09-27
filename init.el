@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(ruby
+   '(asciidoc
+     ruby
      html
      rust
      lua
@@ -63,6 +64,7 @@ This function should only modify configuration layer settings."
      markdown
      (org :variables
           org-enable-bootstrap-support t
+          org-enable-jira-support t
           org-want-todo-bindings t
           org-enable-reveal-js-support t
           org-enable-org-journal-support t
@@ -244,6 +246,7 @@ It should only modify the values of Spacemacs settings."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
                          smyx
+                         zenburn
                          farmhouse-dark
                          material
                          naquadah
@@ -637,7 +640,7 @@ before packages are loaded."
   (setq sentence-end-double-space t)
 
   (setq projectile-completion-system 'ivy)
-  (setq python-shell-interpreter "/usr/bin/python3")
+  (setq python-shell-interpreter "/usr/bin/ipython3")
 
   (setq calendar-week-start-day 1)	; Weeks start on monday
   (setq calendar-date-style 'european)
@@ -688,7 +691,7 @@ before packages are loaded."
   (setq org-link-abbrev-alist
         '(("colissimo" . "http://www.coliposte.net/particulier/suivi_particulier.jsp?colispart=")
           ("launchpad" . "https://bugs.launchpad.net/bugs/")
-          ("review"    . "https://review.openstack.org/#/c/")
+          ("review"    . "https://review.opendev.org/#/c/")
           ("rhbz"      . "https://bugzilla.redhat.com/show_bug.cgi?id=")))
 
   (setq ibuffer-modified-char ?✍)
@@ -706,6 +709,7 @@ before packages are loaded."
 
   (customize-set-variable 'org-journal-dir "~/org/journal/")
   (customize-set-variable 'org-journal-date-format "%A, %d %B %Y")
+  (customize-set-variable 'org-journal-date-prefix "#+TITLE: ")
 
   (with-eval-after-load 'org
     (setq org-capture-templates
@@ -758,7 +762,8 @@ before packages are loaded."
 
   (setq user-mail-address "gchamoul@redhat.com")
   (setq user-full-name "Gaël Chamoulaud")
-
+  (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
+  (global-fci-mode 1)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
