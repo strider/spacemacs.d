@@ -33,13 +33,15 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(asciidoc
+   '(vimscript
+     (go :variables godoc-at-point-function 'godoc-gogetdoc)
+     asciidoc
      ruby
+     gtags
      html
      rust
      lua
      systemd
-     multiple-cursors
      pass
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
 
@@ -70,7 +72,7 @@ This function should only modify configuration layer settings."
           org-enable-org-journal-support t
           org-projectile-file "~/org/TODOs.org")
      (shell :variables
-            shell-default-height  0
+            shell-default-height  40
             shell-default-position 'bottom
             shell-default-shell 'eshell
             shell-default-term-shell "/bin/zsh")
@@ -82,13 +84,16 @@ This function should only modify configuration layer settings."
      syntax-checking
      (version-control :variables
                       version-control-global-margin t
-                      version-control-diff-tool 'git-gutter+)
+                      version-control-diff-tool 'git-gutter+
+                      version-control-diff-side 'left)
      yaml
      (python :variables
+             python-backend 'anaconda
              python-sort-imports-on-save nil
              python-fill-column 80)
      shell-scripts
      major-modes
+
      ansible
      themes-megapack
      docker
@@ -104,7 +109,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(git-gutter
+   dotspacemacs-additional-packages '(git-gutter+
                                       magit-find-file
                                       company-ansible
                                       company-anaconda
@@ -113,7 +118,6 @@ This function should only modify configuration layer settings."
                                       forge
                                       all-the-icons-dired
                                       ivy-yasnippet
-                                      keychain-environment
                                       pyvenv
                                       rpm-spec-mode
                                       )
@@ -180,14 +184,21 @@ It should only modify the values of Spacemacs settings."
    ;; (default '(100000000 0.1))
    dotspacemacs-gc-cons '(100000000 0.1)
 
+   ;; Set `read-process-output-max' when startup finishes.
+   ;; This defines how much data is read from a foreign process.
+   ;; Setting this >= 1 MB should increase performance for lsp servers
+   ;; in emacs 27.
+   ;; (default (* 1024 1024))
+   dotspacemacs-read-process-output-max (* 1024 1024)
+
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
    ;; latest version of packages from MELPA. (default nil)
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
-   ;; (default nil)
-   dotspacemacs-verify-spacelpa-archives nil
+   ;; (default t)
+   dotspacemacs-verify-spacelpa-archives t
 
    ;; If non-nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
@@ -217,8 +228,8 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   ;; dotspacemacs-startup-banner '000
-   dotspacemacs-startup-banner nil
+   dotspacemacs-startup-banner '000
+   ;; dotspacemacs-startup-banner 'official
 
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
@@ -228,14 +239,19 @@ It should only modify the values of Spacemacs settings."
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    dotspacemacs-startup-lists nil
    ;; dotspacemacs-startup-lists '((recents . 5)
-   ;;                              (projects . 7)
-   ;;                              (agenda . 5))
+   ;;                             (projects . 7)
+   ;;                             (agenda . 5))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
 
+   ;; Default major mode for a new empty buffer. Possible values are mode
+   ;; names such as `text-mode'; and `nil' to use Fundamental mode.
+   ;; (default `text-mode')
+   dotspacemacs-new-empty-buffer-major-mode 'text-mode
+
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'org-mode
+   dotspacemacs-scratch-mode 'text-mode
 
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
@@ -246,13 +262,11 @@ It should only modify the values of Spacemacs settings."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
                          smyx
-                         zenburn
-                         farmhouse-dark
+                         material-light
+                         twilight-anti-bright
                          material
-                         naquadah
-                         solarized-dark
                          solarized-light
-                         spacemacs-dark
+                         solarized-dark
                          spacemacs-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -271,7 +285,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fons. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Agave"
-                               :size 11.0
+                               :size 12.5
                                :weight normal
                                :width normal
                                )
@@ -295,8 +309,10 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-major-mode-leader-key ","
 
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m")
-   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; (default "C-M-m" for terminal mode, "<M-return>" for GUI mode).
+   ;; Thus M-RET should work as leader key in both GUI and terminal modes.
+   ;; C-M-m also should work in terminal mode, but not in GUI mode.
+   dotspacemacs-major-mode-emacs-leader-key (if window-system "<M-return>" "C-M-m")
 
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs `C-i', `TAB' and `C-m', `RET'.
@@ -342,7 +358,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.2
+   dotspacemacs-which-key-delay 0.4
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -374,6 +390,11 @@ It should only modify the values of Spacemacs settings."
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
    dotspacemacs-maximized-at-startup nil
+
+   ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
+   ;; variable with `dotspacemacs-maximized-at-startup' in OSX to obtain
+   ;; borderless fullscreen. (default nil)
+   dotspacemacs-undecorated-at-startup nil
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
@@ -482,6 +503,20 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup 'trailing
 
+   ;; If non nil activate `clean-aindent-mode' which tries to correct
+   ;; virtual indentation of simple modes. This can interfer with mode specific
+   ;; indent handling like has been reported for `go-mode'.
+   ;; If it does deactivate it here.
+   ;; (default t)
+   dotspacemacs-use-clean-aindent-mode t
+
+   ;; If non-nil shift your number row to match the entered keyboard layout
+   ;; (only in insert state). Currently supported keyboard layouts are:
+   ;; `qwerty-us', `qwertz-de' and `querty-ca-fr'.
+   ;; New layouts can be added in `spacemacs-editing' layer.
+   ;; (default nil)
+   dotspacemacs-swap-number-row nil
+
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -489,7 +524,11 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil))
+   dotspacemacs-pretty-docs nil
+
+   ;; If nil the home buffer shows the full path of agenda items
+   ;; and todos. If non nil only the file name is shown.
+   dotspacemacs-home-shorten-agenda-source nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -508,6 +547,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (setq custom-file "~/.spacemacs.d/custom.el")
 
+  (setq package-check-signature nil)
   (setq initial-buffer-choice t)
   (add-to-list 'exec-path "~/bin")
   (add-to-list 'exec-path "~/.local/bin")
@@ -540,7 +580,7 @@ before packages are loaded."
   ;;     (load-theme 'solarized-dark t)
   ;;   (load-theme 'smyx t))
 
-  (keychain-refresh-environment)
+  (global-evil-mc-mode  1)
   (global-git-commit-mode t)
   (setq dired-recursive-deletes 'always)
   (setq dired-listing-switches "-alh")
@@ -633,14 +673,13 @@ before packages are loaded."
   (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
   (add-hook 'yaml-mode-hook #'ansible-doc-mode)
 
-  ;; gitgutter
-  (global-git-gutter-mode +1)
-
   (define-key evil-normal-state-map (kbd "Q") (kbd "gqip"))
   (setq sentence-end-double-space t)
 
   (setq projectile-completion-system 'ivy)
-  (setq python-shell-interpreter "/usr/bin/ipython3")
+  (setq python-shell-interpreter "/usr/bin/python3.7")
+  (setq python-shell-interpreter-args "")
+
 
   (setq calendar-week-start-day 1)	; Weeks start on monday
   (setq calendar-date-style 'european)
@@ -762,8 +801,8 @@ before packages are loaded."
 
   (setq user-mail-address "gchamoul@redhat.com")
   (setq user-full-name "Gaël Chamoulaud")
-  (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
-  (global-fci-mode 1)
+  ;; (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
+  ;; (global-fci-mode 1)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
