@@ -4,7 +4,7 @@
 #contributor : Gaël Chamoulaud
 # --
 - name: $1
-  ini:
+  validations_read_file:
     path: "${2:/home/john/doe/file}"
     section: ${3:DEFAULT}
     key: $5

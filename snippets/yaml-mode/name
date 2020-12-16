@@ -4,3 +4,4 @@
 #contributor : Gaël Chamoulaud
 # --
 - name: $1
+  $2
