@@ -31,20 +31,25 @@ This function should only modify configuration layer settings."
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
 
+
    ;; List of configuration layers to load.
+
    dotspacemacs-configuration-layers
    '(javascript
      vimscript
      (json :variables json-fmt-tool 'web-beautify)
      asciidoc
-     ruby
      gtags
      html
-     rust
-     lua
      systemd
      pass
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
+     (lsp :variables
+          lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols)
+          lsp-headerline-breadcrumb-mode t
+          lsp-enable-file-watchers nil
+          lsp-ui-sideline-enable t
+          lsp-ui-sideline-show-hover nil)
 
      (ivy :variables ivy-enable-advanced-buffer-information t)
      fasd
@@ -60,27 +65,37 @@ This function should only modify configuration layer settings."
           git-magit-status-fullscreen t
           git-gutter-use-fringe t)
 
+
+
      (colors :variables
              colors-enable-nyan-cat-progress-bar nil
              colors-default-rainbow-identifiers-sat t)
      github
      markdown
+
+     ;; Spacemacs Org mode
      (org :variables
+          org-enable-github-support t
           org-enable-bootstrap-support t
-          org-want-todo-bindings t
-          org-enable-roam-support t
           org-enable-reveal-js-support t
+          org-want-todo-bindings t
           org-enable-org-journal-support t
-          org-projectile-file "~/org/TODOs.org")
+          org-projectile-file "~/org/TODOs.org"
+          org-journal-dir "~/org/journal/"
+          org-journal-file-format "%Y-%m-%d"
+          org-journal-date-prefix "#+TITLE: "
+          org-journal-date-format "%A, %B %d %Y"
+          org-journal-time-prefix "* "
+          org-journal-carryover-items "TODO=\"TODO\"|TODO=\"DOING\"|TODO=\"BLOCKED\"|TODO=\"REVIEW\"")
+
      (shell :variables
             shell-default-height  40
             shell-default-position 'bottom
             shell-default-shell 'eshell
             shell-default-term-shell "/bin/zsh")
      (spell-checking :variables
-                     spell-checking-enable-by-default nil)
-                     ;; spell-checking-enable-auto-dictionary t
-                     ;; =enable-flyspell-auto-completion= t)
+                     spell-checking-enable-by-default nil
+                     enable-flyspell-auto-completion t)
 
      syntax-checking
      (version-control :variables
@@ -89,7 +104,8 @@ This function should only modify configuration layer settings."
                       version-control-diff-side 'left)
      yaml
      (python :variables
-             python-backend 'anaconda
+			 python-backend 'lsp
+			 python-lsp-server 'pyright
              python-sort-imports-on-save nil
              python-fill-column 80)
      shell-scripts
@@ -98,7 +114,7 @@ This function should only modify configuration layer settings."
      ansible
      themes-megapack
      docker
-     (elfeed :variables rmh-elfeed-org-files (list "~/.spacemacs.d/elfeed.org"))
+     ;; (elfeed :variables rmh-elfeed-org-files (list "~/.spacemacs.d/elfeed.org"))
      (multiple-cursors :variables multiple-cursors-backend 'evil-mc)
      )
 
@@ -111,12 +127,17 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(git-gutter+
                                       magit-find-file
+                                      python-docstring
                                       company-ansible
                                       company-anaconda
                                       restclient
                                       ansible-doc
                                       forge
+                                      diredfl
+                                      all-the-icons
                                       all-the-icons-dired
+                                      all-the-icons-ivy
+                                      highlight-indent-guides
                                       ivy-yasnippet
                                       pyvenv
                                       rpm-spec-mode
@@ -230,7 +251,7 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner '000
+   dotspacemacs-startup-banner nil
    ;; dotspacemacs-startup-banner 'official
 
    ;; List of items to show in startup buffer or an association list of
@@ -240,9 +261,10 @@ It should only modify the values of Spacemacs settings."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    dotspacemacs-startup-lists nil
-   ;; dotspacemacs-startup-lists '((recents . 5)
-   ;;                             (projects . 7)
-   ;;                             (agenda . 5))
+   ;; dotspacemacs-startup-lists '((agenda . 5)
+   ;;                             (todos . 7)
+   ;;                             (recents . 5)
+   ;;                             (projects . 5))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -250,10 +272,10 @@ It should only modify the values of Spacemacs settings."
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
    ;; (default `text-mode')
-   dotspacemacs-new-empty-buffer-major-mode 'text-mode
+   dotspacemacs-new-empty-buffer-major-mode 'org-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-scratch-mode 'org-mode
 
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
@@ -262,7 +284,7 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(modus-operandi)
+   dotspacemacs-themes '(flatland)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -279,9 +301,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fons. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Agave"
-                               :size 14
-                               :weight normal
+   dotspacemacs-default-font '("Fira Code"
+                               :height 120
+                               :weight semi-bold
                                :width normal
                                )
 
@@ -431,8 +453,7 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; (default nil)
    dotspacemacs-line-numbers '(relative t
-                               :disabled-for-modes org-mode
-                                                   term-mode
+                               :disabled-for-modes term-mode
                                                    shell-mode
                                                    treemacs-mode
                                                    eshell-mode
@@ -490,7 +511,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%I@%S"
+   dotspacemacs-frame-title-format "Emacs .::. %I@%S .::. %t - %a"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -544,7 +565,13 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq font-use-system-font t)
+  ;; https://github.com/syl20bnr/spacemacs/issues/2705
+  ;; (setq tramp-mode nil)
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 
+  (setq warning-minimum-level :error)
   (setq package-check-signature nil)
   (setq initial-buffer-choice t)
   (add-to-list 'exec-path "~/bin")
@@ -574,11 +601,26 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-  ;; (if (display-graphic-p)
-  ;;     (load-theme 'doom-one t)
-  ;;   (load-theme 'smyx t))
+  ;; ;; show the filepath in the frame title
+  ;; ;; http://emacsredux.com/blog/2013/04/07/display-visited-files-path-in-the-frame-title/
+  ;; (setq frame-title-format
+  ;;       '((:eval (if (buffer-file-name)
+  ;;                    (abbreviate-file-name (buffer-file-name))
+  ;;                  "%b"))))
 
+  (with-eval-after-load "ispell"
+    (setq ispell-program-name "hunspell")
+    ;; ispell-set-spellchecker-params has to be called
+    ;; before ispell-hunspell-add-multi-dic will work
+    (ispell-set-spellchecker-params)
+    (ispell-hunspell-add-multi-dic "fr_FR,en_US,en_GB")
+    (setq ispell-dictionary "fr_FR,en_US,en_GB"))
+
+  ;; colorized dired https://github.com/purcell/diredfl
+  (diredfl-global-mode t)
+  (setq-default indent-tabs-mode nil)
   (setq-default doom-modeline-height 30)
+  (cua-mode t)
   (global-evil-mc-mode  1)
   (global-git-commit-mode t)
   (setq dired-recursive-deletes 'always)
@@ -592,28 +634,29 @@ before packages are loaded."
   (setq magit-save-some-buffers nil)
   (setq magit-remote-ref-format 'remote-slash-branch)
   (setq magit-completing-read-function 'ivy-completing-read)
-
-  (add-hook 'git-commit-mode-hook (lambda () (toggle-save-place 0))) ; Disable it
-  (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
-
+  (setq magit-commit-signoff t)
+  (setq magit-save-some-buffers nil)
+  (setq magit-remote-ref-format 'remote-slash-branch)
   (global-set-key (kbd "<f3>") 'magit-status)
   (global-set-key (kbd "C-x p") 'magit-find-file-completing-read)
 
   (setq magit-repository-directories
         '(("~/DEV/work/git/tripleo/UPSTREAM" . 2)
           ("~/DEV/work/git/tripleo/OOOQ/" . 2)
-          ("~/DEV/work/git/ansible/" . 2)
-          ("~/DEV/work/git/kni/" . 2)))
+          ("~/DEV/work/git/laptop_config/" . 2)
+          ("~/DEV/work/git/ansible/" . 2)))
 
   (add-hook 'git-commit-mode-hook (lambda () (toggle-save-place 0))) ; Disable it
   (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
   (setq git-commit-summary-max-length 80)
-
-  (setq magit-commit-signoff t)
-  (setq magit-save-some-buffers nil)
-  (setq magit-remote-ref-format 'remote-slash-branch)
-
-  (global-set-key (kbd "C-x p") 'magit-find-file-completing-read)
+  (add-to-list 'git-commit-known-pseudo-headers "Co-Authored-By")
+  (add-to-list 'git-commit-known-pseudo-headers "Related-Bug")
+  (add-to-list 'git-commit-known-pseudo-headers "Resolves")
+  (add-to-list 'git-commit-known-pseudo-headers "Closes-Bug")
+  (add-to-list 'git-commit-known-pseudo-headers "Implements")
+  (add-to-list 'git-commit-known-pseudo-headers "Change-Id")
+  (add-to-list 'git-commit-known-pseudo-headers "Depends-On")
+  (add-to-list 'git-commit-known-pseudo-headers "Needed-By")
 
   ;; (spacemacs/toggle-highlight-long-lines-globally-on)
 
@@ -621,6 +664,7 @@ before packages are loaded."
 
   (add-hook 'after-init-hook 'global-company-mode)
   (add-hook 'python-mode-hook 'anaconda-mode)
+  (add-hook 'python-mode-hook 'python-docstring-mode)
 
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
@@ -661,9 +705,9 @@ before packages are loaded."
    '(company-tooltip-common-selection
      ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
 
-  ;; `org-indent-mode' does not play nice with git-gutter, so let's disable
-  ;; it :-(
-  (setq git-gutter:disabled-modes '(org-mode))
+  ;; ;; `org-indent-mode' does not play nice with git-gutter, so let's disable
+  ;; ;; it :-(
+  ;; (setq git-gutter:disabled-modes '(org-mode))
 
   (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
   (add-hook 'yaml-mode-hook #'ansible-doc-mode)
@@ -672,20 +716,12 @@ before packages are loaded."
   (setq sentence-end-double-space t)
 
   (setq projectile-completion-system 'ivy)
-  (setq python-shell-interpreter "/usr/bin/python3.7")
+  (setq python-shell-interpreter "/usr/bin/python3")
   (setq python-shell-interpreter-args "")
-
 
   (setq calendar-week-start-day 1)	; Weeks start on monday
   (setq calendar-date-style 'european)
   (setq european-calendar-style t)
-
-  (setq org-directory "~/org")
-  (setq org-hide-leading-stars t)
-  (setq org-src-fontify-natively t)
-  (setq org-startup-indented t)
-  (setq org-completion-use-ido t)
-  (setq org-log-done t)
 
   ;;set priority range from A to C with default A
   (setq org-highest-priority ?A)
@@ -697,36 +733,48 @@ before packages are loaded."
                              (?B . (:foreground "LightSteelBlue"))
                              (?C . (:foreground "OliveDrab"))))
 
-  (setq org-todo-keywords
+  (with-eval-after-load 'org
+    (setq org-todo-keywords
         '((sequence "TODO(t!)"
-                    "STARTED(s!)"
-                    "DELEGATED(g@)"
+                    "DOING(s!)"
                     "BLOCKED(b@)"
-                    "FEEDBACK(f!/@)"
-                    "REWORK(r!/!)"
-                    "VERIFY(v/!)"
+                    "REVIEW(r!/!)"
                     "|"
                     "DONE(d!)"
-                    "CANCELED(c@)")
-          (sequence "PROJECT(j!)" "|" "CANCELED(c@)" "DONE(d!)")))
+                    "ARCHIVED(a@)"
+                    "CANCELED(c@)"))))
 
-  (setq org-todo-keyword-faces
-        '(("DELEGATED" . shadow)
-          ("STARTED" . org-warning)
-          ("FEEDBACK" . (:foreground "yellow"))
-          ("BLOCKED" . shadow)
-          ("REWORK" . org-warning)
-          ("VERIFY" . org-warning)
-          ("CANCELED" . (:foreground "red" :weight bold :strike-through t))))
+  (with-eval-after-load 'org
+    (setq org-todo-keyword-faces
+        '(("TODO" . "SlateGray")
+          ("DOING" . "DarkOrchid")
+          ("BLOCKED" . "Firebrick")
+          ("REVIEW" . "Teal")
+          ("DONE" . "ForestGreen")
+          ("CANCELED" . (:foreground "red" :weight bold :strike-through t))
+          ("ARCHIVED" . "SlateBlue"))))
+
+  ;; customize org-mode's checkboxes with unicode symbols
+  (add-hook
+   'org-mode-hook
+   (lambda ()
+     "Beautify Org Checkbox Symbol"
+     (push '("[ ]" . "☐") prettify-symbols-alist)
+     (push '("[X]" . "☑" ) prettify-symbols-alist)
+     (push '("[-]" . "❍" ) prettify-symbols-alist)
+     (prettify-symbols-mode)))
 
   (setq org-clock-persist-query-save t)
+  (setq org-clock-in-switch-to-state "STARTED")
+  (setq org-clock-out-remove-zero-time-clocks t)
   (setq org-src-preserve-indentation t)
   (setq org-enforce-todo-dependencies t)
   (setq org-link-abbrev-alist
         '(("colissimo" . "http://www.coliposte.net/particulier/suivi_particulier.jsp?colispart=")
           ("launchpad" . "https://bugs.launchpad.net/bugs/")
           ("review"    . "https://review.opendev.org/#/c/")
-          ("rhbz"      . "https://bugzilla.redhat.com/show_bug.cgi?id=")))
+          ("rhbz"      . "https://bugzilla.redhat.com/show_bug.cgi?id=")
+          ("JIRA"      . "https://projects.engineering.redhat.com/browse/")))
 
   (setq ibuffer-modified-char ?✍)
   (setq ibuffer-read-only-char ?✗)
@@ -741,22 +789,17 @@ before packages are loaded."
   (windmove-default-keybindings)    ; Move between frames with Shift+arrow
   (setq mouse-yank-at-point t)
 
-  (customize-set-variable 'org-journal-dir "~/org/journal/")
-  (customize-set-variable 'org-journal-date-format "%A, %d %B %Y")
-  (customize-set-variable 'org-journal-date-prefix "#+TITLE: ")
-
   (with-eval-after-load 'org
     (setq org-capture-templates
-          '(("t" "TODO WORK Tasks" entry (file+headline "~/org/inbox.org" "TASKS")
-            "* TODO [#A] %i%?\n- Added: %U\n" :prepend t :kill-buffer t)
-            ("a" "TODO ADMIN Tasks" entry (file+headline "~/org/personal.org" "ADMIN TASKS")
-            "* TODO [#A] %i%?\n- Added: %U\n" :prepend t :kill-buffer t)
-            ("e" "TODO PERSONAL Tasks" entry (file+headline "~/org/personal.org" "PERSONAL TASKS")
-            "* TODO [#A] %i%?\ni- Added: %U\n" :prepend t :kill-buffer t)
+          '(("x" "TODO PERSONAL Tasks" entry (file+headline "~/org/inbox.org" "PERSONAL TASKS")
+             "\n* TODO [#A] %\\1 - %\\2%?\n- Added: %u\n:PROPERTIES:\n:NAME: %^{NAME}\n:TITLE: %^{TITLE}\n:END:\n" :empty-lines 1 :prepend t :kill-buffer t)
+            ("w" "TODO WORK Tasks" entry (file+headline "~/org/inbox.org" "WORK TASKS")
+             "\n* TODO [#A] %\\1 - %\\2%?\n- Added: %u\n:PROPERTIES:\n:NAME: %^{NAME}\n:TITLE: %^{TITLE}\n:END:\n" :empty-lines 1 :prepend t :kill-buffer t)
             ))
 
     (setq org-agenda-files '("~/org/inbox.org"
-                             "~/org/personal.org"
+                             "~/org/misc.org"
+                             "~/org/technical_notes.org"
                              "~/org/TODOs.org"))
     (add-to-list 'org-agenda-files org-journal-dir)
     (setq org-default-notes-file "~/org/inbox.org")
@@ -792,12 +835,10 @@ before packages are loaded."
 
   (load "~/.spacemacs.d/mutt.el")
   (add-to-list 'auto-mode-alist '(".*neomutt.*" . mutt-mode))
+  (add-hook 'mutt-mode-hook 'smyx)
   (setq mail-header-separator "")
-
   (setq user-mail-address "gchamoul@redhat.com")
   (setq user-full-name "Gaël Chamoulaud")
-  ;; (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
-  ;; (global-fci-mode 1)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
