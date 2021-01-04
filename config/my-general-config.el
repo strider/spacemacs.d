@@ -13,10 +13,6 @@
  display-line-numbers-type 'relative              ; Prefer relative numbers
  display-line-numbers-width 2)                    ; Enforce width to reduce computation
 
-(use-package pinentry
-  :hook
-  (after-init . pinentry-start))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs text rendering optimizations
 ;; https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lines_in_emacs.html

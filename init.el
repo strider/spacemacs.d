@@ -140,7 +140,6 @@ This function should only modify configuration layer settings."
                                       restclient
                                       ansible-doc
                                       forge
-                                      pinentry
                                       olivetti
                                       diredfl
                                       all-the-icons
