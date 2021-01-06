@@ -7,12 +7,16 @@
 
 (add-hook 'conf-mode-hook #'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'text-mode-hook #'display-line-numbers-mode)
+(add-hook 'yaml-mode-hook #'display-line-numbers-mode)
+;; (add-hook 'text-mode-hook #'display-line-numbers-mode)
 (setq-default
  display-line-numbers-current-absolute nil        ; Current line is 0
  display-line-numbers-type 'relative              ; Prefer relative numbers
  display-line-numbers-width 2)                    ; Enforce width to reduce computation
 
+(setq alert-default-style 'notifications)
+
+(display-battery-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs text rendering optimizations
 ;; https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lines_in_emacs.html
@@ -33,13 +37,6 @@
 
 ;; End of: Emacs text rendering optimizations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq lsp-headerline-breadcrumb-mode t)
-(setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-(setq lsp-enable-file-watchers nil)
-(setq lsp-ui-doc-enable t)
-(setq lsp-ui-sideline-enable t)
-(setq lsp-ui-sideline-show-hover nil)
 
 ;; https://github.com/syl20bnr/spacemacs/issues/2705
 ;; (setq tramp-mode nil)
@@ -68,6 +65,24 @@
   (whitespace-mode 'toggle))
 
 (global-set-key (kbd "<f9>") #'strider/flyspell-and-whitespace-mode)
+
+(olivetti-mode 0)
+
+(defun strider/enter-focus-mode ()
+  (interactive)
+  (olivetti-mode 1))
+
+(defun strider/leave-focus-mode ()
+  (interactive)
+  (olivetti-mode 0))
+
+(defun strider/toggle-focus-mode ()
+  (interactive)
+  (if (symbol-value olivetti-mode)
+      (strider/leave-focus-mode)
+    (strider/enter-focus-mode)))
+
+(global-set-key (kbd "<f8>") #'strider/toggle-focus-mode)
 
 (setq git-commit-fill-column 72)
 
@@ -102,7 +117,6 @@
 ;; colorized dired https://github.com/purcell/diredfl
 (diredfl-global-mode t)
 (setq-default indent-tabs-mode nil)
-;; (setq-default doom-modeline-height 30)
 (cua-mode t)
 (global-evil-mc-mode  1)
 (setq dired-recursive-deletes 'always)
@@ -119,6 +133,8 @@
 (setq magit-remote-ref-format 'remote-slash-branch)
 (setq magit-completing-read-function 'ivy-completing-read)
 (setq magit-commit-signoff t)
+(add-hook 'after-save-hook 'magit-after-save-refresh-status t)
+
 (global-set-key (kbd "<f3>") 'magit-status)
 (global-set-key (kbd "C-x p") 'magit-find-file-completing-read)
 
@@ -144,9 +160,15 @@
 (global-spacemacs-whitespace-cleanup-mode t)
 
 (add-hook 'after-init-hook 'global-company-mode)
-;; (add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 (add-hook 'python-mode-hook 'python-docstring-mode)
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
+(custom-set-variables
+ '(flycheck-python-flake8-executable "python3")
+ '(flycheck-python-pycompile-executable "python3")
+ '(flycheck-python-pylint-executable "python3"))
 
 (eval-after-load "company"
   '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
@@ -192,7 +214,7 @@
 (setq sentence-end-double-space t)
 
 (setq projectile-completion-system 'ivy)
-(setq python-shell-interpreter "/usr/bin/python3")
+(setq python-shell-interpreter "/usr/bin/python3.7")
 (setq python-shell-interpreter-args "")
 
 (setq ibuffer-modified-char ?✍)
@@ -202,6 +224,17 @@
 (setq ibuffer-show-empty-filter-groups nil)
 
 (display-time-mode 1)
+(setq display-time-format "%l:%M %p %b %y"
+      display-time-default-load-average nil)
+
+(setq display-time-world-list
+      '(("America/Los_Angeles" "Seattle")
+        ("America/New_York" "New York")
+        ("Europe/Paris" "Paris")
+        ("Pacific/Auckland" "Auckland")
+        ("Asia/Shanghai" "Shanghai")))
+
+(setq display-time-world-time-format "%a, %d %b %I:%M %p %Z")
 (global-hi-lock-mode 1)
 (global-git-gutter+-mode 1)
 (global-color-identifiers-mode 1)

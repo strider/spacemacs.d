@@ -46,7 +46,6 @@ This function should only modify configuration layer settings."
      fasd
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
 
-     lsp
      (ivy :variables ivy-enable-advanced-buffer-information t)
 
      (auto-completion :variables
@@ -69,7 +68,7 @@ This function should only modify configuration layer settings."
      (spacemacs-modeline :variables
                          doom-modeline-height 30
                          doom-modeline-major-mode-color-icon t
-                         doom-modeline-buffer-file-name-style 'relative-to-project
+                         doom-modeline-buffer-file-name-style 'truncate-except-project
                          doom-modeline-display-default-persp-name t
                          doom-modeline-minor-modes nil
                          doom-modeline-modal-icon nil)
@@ -110,10 +109,10 @@ This function should only modify configuration layer settings."
                       version-control-diff-side 'left)
      yaml
      (python :variables
-			 python-backend 'lsp
-			 python-lsp-server 'pyright
+			 python-backend 'anaconda
+			 ;; python-lsp-server 'pyright
              python-sort-imports-on-save nil
-             python-auto-set-local-pyenv-version t
+             ;; python-auto-set-local-pyenv-version t
              python-fill-column 80)
      shell-scripts
      major-modes
@@ -133,6 +132,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(git-gutter+
                                       magit-find-file
+                                      alert
                                       python-docstring
                                       company-ansible
                                       company-anaconda
@@ -276,7 +276,8 @@ It should only modify the values of Spacemacs settings."
    ;; dotspacemacs-startup-lists '((agenda . 5)
    ;;                             (todos . 7)
    ;;                             (recents . 5)
-   ;;                             (projects . 5))
+   ;;                             ;; (projects . 5)
+   ;;                             )
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -291,7 +292,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
    ;; *scratch* buffer will be saved and restored automatically.
-   dotspacemacs-scratch-buffer-persistent t
+   dotspacemacs-scratch-buffer-persistent nil
 
    ;; If non-nil, `kill-buffer' on *scratch* buffer
    ;; will bury it instead of killing.
@@ -304,7 +305,10 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(gruvbox-dark-hard
+   dotspacemacs-themes '(doom-one
+                         spacegray
+                         gruvbox-dark-hard
+                         doom-nord
                          doom-dracula
                          modus-vivendi
                          naquadah
@@ -330,7 +334,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fons. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Agave"
-                               :size 16.0
+                               :size 14.0
                                :weight normal
                                :width normal
                                )
@@ -614,6 +618,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
   (setq custom-file "~/.spacemacs.d/custom.el")
   (load custom-file :noerror)
 

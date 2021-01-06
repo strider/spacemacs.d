@@ -4,9 +4,7 @@
 (add-hook 'after-init-hook 'org-roam-mode)
 (add-hook 'org-mode-hook 'org-indent-mode)
 
-(use-package org-bullets
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; User key bindings
