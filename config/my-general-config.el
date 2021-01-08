@@ -133,7 +133,6 @@
 (setq magit-remote-ref-format 'remote-slash-branch)
 (setq magit-completing-read-function 'ivy-completing-read)
 (setq magit-commit-signoff t)
-(add-hook 'after-save-hook 'magit-after-save-refresh-status t)
 
 (global-set-key (kbd "<f3>") 'magit-status)
 (global-set-key (kbd "C-x p") 'magit-find-file-completing-read)
@@ -224,8 +223,6 @@
 (setq ibuffer-show-empty-filter-groups nil)
 
 (display-time-mode 1)
-(setq display-time-format "%l:%M %p %b %y"
-      display-time-default-load-average nil)
 
 (setq display-time-world-list
       '(("America/Los_Angeles" "Seattle")
