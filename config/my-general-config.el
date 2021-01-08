@@ -268,8 +268,14 @@
 (xterm-mouse-mode -1)
 
 (load "~/.spacemacs.d/mutt.el")
+(load "~/.spacemacs.d/muttrc-mode.el")
 (add-to-list 'auto-mode-alist '(".*neomutt.*" . mutt-mode))
 (add-hook 'mutt-mode-hook 'smyx)
+; wrap email body
+(add-hook 'mutt-mode-hook 'turn-on-auto-fill)
+(add-hook 'mutt-mode-hook 'turn-on-filladapt-mode)
+(add-hook 'mutt-mode-hook 'flyspell-mode)
+
 (setq mail-header-separator "")
 (setq user-mail-address "gchamoul@redhat.com")
 (setq user-full-name "Gaël Chamoulaud")
