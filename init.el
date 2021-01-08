@@ -38,6 +38,7 @@ This function should only modify configuration layer settings."
    '(
      (elfeed :variables rmh-elfeed-org-files (list "~/.spacemacs.d/private/elfeed.org"))
 
+     ranger
      restructuredtext
      sphinx
      search-engine
