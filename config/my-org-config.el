@@ -97,6 +97,8 @@
            "\n* TODO [#A] %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n- Added: %u\n" :prepend t :kill-buffer t)
           ("w" "TODO WORK Tasks" entry (file+headline "~/org/inbox.org" "WORK TASKS")
            "\n* TODO [#A] %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n- Added: %u\n" :prepend t :kill-buffer t)
+          ("c" "Contacts" entry (file "~/org/contacts.org")
+           "* %\\1%?\n:PROPERTIES:\n:NAME: %^{NAME}\n:EMAIL:\n:PHONE:\n:ALIAS:\n:NICKNAME:\n:NOTE:\n:ADDRESS:\n:BIRTHDAY:\n:END:" :prepend t :kill-buffer t)
           ))
 
   (setq org-agenda-files '("~/org/inbox.org"

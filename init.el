@@ -83,7 +83,7 @@ This function should only modify configuration layer settings."
           org-enable-reveal-js-support t
           org-want-todo-bindings t
           org-enable-org-journal-support t
-          org-projectile-file "~/org/TODOs.org"
+          org-projectile-file "~/org/todo.org"
           org-journal-dir "~/org/journal/"
           org-journal-file-format "%Y-%m-%d"
           org-journal-date-prefix "#+TITLE: "
