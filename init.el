@@ -66,10 +66,12 @@ This function should only modify configuration layer settings."
 
      ;; Configuration: https://github.com/seagle0128/doom-modeline#customize
      (spacemacs-modeline :variables
-                         doom-modeline-height 30
+                         doom-modeline-height 25
+                         doom-modeline-bar-width 3
                          doom-modeline-major-mode-color-icon t
-                         doom-modeline-buffer-file-name-style 'truncate-except-project
-                         doom-modeline-display-default-persp-name t
+                         doom-modeline-buffer-file-name-style 'truncate-all
+                         doom-modeline-display-default-persp-name nil
+                         doom-modeline-persp-name nil
                          doom-modeline-minor-modes nil
                          doom-modeline-modal-icon nil)
 
