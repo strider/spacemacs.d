@@ -17,6 +17,7 @@
 (setq alert-default-style 'notifications)
 
 (display-battery-mode 1)
+(global-tab-line-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs text rendering optimizations
 ;; https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lines_in_emacs.html
@@ -116,7 +117,8 @@
 
 ;; colorized dired https://github.com/purcell/diredfl
 (diredfl-global-mode t)
-(setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode t)
+(setq indent-line-function 'insert-tab)
 (cua-mode t)
 (global-evil-mc-mode  1)
 (setq dired-recursive-deletes 'always)
