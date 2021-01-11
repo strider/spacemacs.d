@@ -81,6 +81,7 @@ This function should only modify configuration layer settings."
 
      ;; Spacemacs Org mode
      (org :variables
+		  org-brain-path "~/org/brain"
           org-enable-github-support t
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t
@@ -88,10 +89,11 @@ This function should only modify configuration layer settings."
           org-enable-org-journal-support t
           org-projectile-file "~/org/todo.org"
           org-journal-dir "~/org/journal/"
-          org-journal-file-format "%Y-%m-%d"
-          org-journal-date-prefix "#+TITLE: "
-          org-journal-date-format ".::. %Y-%m-%d .::."
-          org-journal-time-prefix "* "
+          org-journal-file-type "yearly"
+          org-journal-file-format "%Y"
+          ;; org-journal-date-prefix "#+TITLE: "
+          ;; org-journal-date-format ".::. %Y-%m-%d .::."
+          ;; org-journal-time-prefix "* "
           org-journal-carryover-items "TODO=\"TODO\"|TODO=\"DOING\"|TODO=\"BLOCKED\"|TODO=\"REVIEW\"")
 
      (shell :variables

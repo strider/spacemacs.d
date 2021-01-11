@@ -91,6 +91,11 @@
         ("rhbz"      . "https://bugzilla.redhat.com/show_bug.cgi?id=")
         ("JIRA"      . "https://projects.engineering.redhat.com/browse/")))
 
+(global-set-key (kbd "C-c x")
+  (lambda () (interactive) (org-capture nil "x")))
+(global-set-key (kbd "C-c w")
+  (lambda () (interactive) (org-capture nil "w")))
+
 (with-eval-after-load 'org
   (setq org-capture-templates
         '(("x" "TODO PERSONAL Tasks" entry (file+headline "~/org/inbox.org" "PERSONAL TASKS")
