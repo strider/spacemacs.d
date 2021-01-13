@@ -61,13 +61,16 @@
 (with-eval-after-load 'org
   (setq org-todo-keywords
       '((sequence "TODO(t!)"
+				  "IDEA(i!)"
+				  "GOAL(g!)"
                   "DOING(s!)"
                   "BLOCKED(b@)"
                   "REVIEW(r!/!)"
                   "|"
                   "DONE(d!)"
                   "ARCHIVED(a@)"
-                  "CANCELED(c@)"))))
+                  "CANCELED(c@)")
+		)))
 
 (with-eval-after-load 'org
   (setq org-todo-keyword-faces
@@ -77,7 +80,9 @@
         ("REVIEW" . "Teal")
         ("DONE" . "ForestGreen")
         ("CANCELED" . (:foreground "red" :weight bold :strike-through t))
-        ("ARCHIVED" . "SlateBlue"))))
+        ("ARCHIVED" . "SlateBlue")
+        ("GOAL" . (:foreground "#DDDD00" :bold t :weight bold :box (:line-width 1 :style none)))
+		("IDEA" . (:foreground "#F8B63F" :bold t :weight bold :box (:line-width 1 :style none))))))
 
 (setq org-clock-persist-query-save t)
 (setq org-clock-in-switch-to-state "DOING")
@@ -102,6 +107,10 @@
            "\n* TODO [#A] %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n- Added: %u\n" :prepend t :kill-buffer t)
           ("w" "TODO WORK Tasks" entry (file+headline "~/Dropbox/org/inbox.org" "WORK TASKS")
            "\n* TODO [#A] %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n- Added: %u\n" :prepend t :kill-buffer t)
+          ("i" "IDEA IDEA\(s\)" entry (file+headline "~/Dropbox/org/inbox.org" "IDEAS AND GOALS")
+           "\n* IDEA %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n- Added: %u\n" :prepend t :kill-buffer t)
+          ("g" "GOAL GOAL\(s\)" entry (file+headline "~/Dropbox/org/inbox.org" "IDEAS AND GOALS")
+           "\n* GOAL %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n- Added: %u\n" :prepend t :kill-buffer t)
           ("c" "Contacts" entry (file "~/Dropbox/org/contacts.org")
            "* %\\1%?\n:PROPERTIES:\n:NAME: %^{NAME}\n:EMAIL:\n:PHONE:\n:ALIAS:\n:NICKNAME:\n:NOTE:\n:ADDRESS:\n:BIRTHDAY:\n:END:" :prepend t :kill-buffer t)
           ))
