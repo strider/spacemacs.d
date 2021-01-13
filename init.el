@@ -88,7 +88,6 @@ This function should only modify configuration layer settings."
      (org :variables
 		  org-brain-path "~/Dropbox/org/brain"
           org-enable-github-support t
-          org-enable-bootstrap-support t
           org-enable-reveal-js-support t
 		  org-re-reveal-root "file:///home/gchamoul/tmp/reveal.js"
           org-want-todo-bindings t
