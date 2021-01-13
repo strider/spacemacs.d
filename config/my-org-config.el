@@ -98,20 +98,20 @@
 
 (with-eval-after-load 'org
   (setq org-capture-templates
-        '(("x" "TODO PERSONAL Tasks" entry (file+headline "~/org/inbox.org" "PERSONAL TASKS")
+        '(("x" "TODO PERSONAL Tasks" entry (file+headline "~/Dropbox/org/inbox.org" "PERSONAL TASKS")
            "\n* TODO [#A] %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n- Added: %u\n" :prepend t :kill-buffer t)
-          ("w" "TODO WORK Tasks" entry (file+headline "~/org/inbox.org" "WORK TASKS")
+          ("w" "TODO WORK Tasks" entry (file+headline "~/Dropbox/org/inbox.org" "WORK TASKS")
            "\n* TODO [#A] %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n- Added: %u\n" :prepend t :kill-buffer t)
-          ("c" "Contacts" entry (file "~/org/contacts.org")
+          ("c" "Contacts" entry (file "~/Dropbox/org/contacts.org")
            "* %\\1%?\n:PROPERTIES:\n:NAME: %^{NAME}\n:EMAIL:\n:PHONE:\n:ALIAS:\n:NICKNAME:\n:NOTE:\n:ADDRESS:\n:BIRTHDAY:\n:END:" :prepend t :kill-buffer t)
           ))
 
-  (setq org-agenda-files '("~/org/inbox.org"
-                           "~/org/misc.org"
-                           "~/org/technical_notes.org"
-                           "~/org/todo.org"))
+  (setq org-agenda-files '("~/Dropbox/org/inbox.org"
+                           "~/Dropbox/org/misc.org"
+                           "~/Dropbox/org/technical_notes.org"
+                           "~/Dropbox/org/todo.org"))
   (add-to-list 'org-agenda-files org-journal-dir)
-  (setq org-default-notes-file "~/org/inbox.org")
+  (setq org-default-notes-file "~/Dropbox/org/inbox.org")
   )
 
 (message "end of my-org-config")

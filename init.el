@@ -81,15 +81,15 @@ This function should only modify configuration layer settings."
 
      ;; Spacemacs Org mode
      (org :variables
-		  org-brain-path "~/org/brain"
+		  org-brain-path "~/Dropbox/org/brain"
           org-enable-github-support t
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t
 		  org-re-reveal-root "file:///home/gchamoul/tmp/reveal.js"
           org-want-todo-bindings t
           org-enable-org-journal-support t
-          org-projectile-file "~/org/todo.org"
-          org-journal-dir "~/org/journal/"
+          org-projectile-file "~/Dropbox/org/todo.org"
+          org-journal-dir "~/Dropbox/org/journal/"
           org-journal-file-type "yearly"
           org-journal-file-format "%Y"
           ;; org-journal-date-prefix "#+TITLE: "
