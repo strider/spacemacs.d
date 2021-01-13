@@ -78,6 +78,11 @@ This function should only modify configuration layer settings."
 
      github
      markdown
+	 helpful
+	 tabs
+	 (dash :variables
+		   dash-autoload-common-docsets nil
+		   dash-docs-docset-newpath "~/.local/share/Zeal/Zeal/docsets")
 
      ;; Spacemacs Org mode
      (org :variables

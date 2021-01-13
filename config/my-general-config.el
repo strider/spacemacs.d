@@ -17,7 +17,11 @@
 (setq alert-default-style 'notifications)
 
 (display-battery-mode 1)
-(global-tab-line-mode 1)
+(setq centaur-tabs-style "bar")
+(setq centaur-tabs-height 50)
+(setq centaur-tabs-gray-out-icons 'buffer)
+(setq grip-preview-use-webkit nil)
+;; (global-tab-line-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs text rendering optimizations
 ;; https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lines_in_emacs.html
