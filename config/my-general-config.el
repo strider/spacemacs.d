@@ -8,6 +8,9 @@
 (add-hook 'conf-mode-hook #'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook #'display-line-numbers-mode)
+(global-aggressive-indent-mode 1)
+(add-to-list 'aggressive-indent-excluded-modes 'python-mode)
+
 ;; (add-hook 'text-mode-hook #'display-line-numbers-mode)
 (setq-default
  display-line-numbers-current-absolute nil        ; Current line is 0
@@ -121,8 +124,7 @@
 
 ;; colorized dired https://github.com/purcell/diredfl
 (diredfl-global-mode t)
-(setq-default indent-tabs-mode t)
-(setq indent-line-function 'insert-tab)
+(setq-default indent-tabs-mode nil)
 (cua-mode t)
 (global-evil-mc-mode  1)
 (setq dired-recursive-deletes 'always)
