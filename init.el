@@ -85,6 +85,7 @@ This function should only modify configuration layer settings."
           org-enable-github-support t
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t
+		  org-re-reveal-root "file:///home/gchamoul/tmp/reveal.js"
           org-want-todo-bindings t
           org-enable-org-journal-support t
           org-projectile-file "~/org/todo.org"
